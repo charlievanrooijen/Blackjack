@@ -13,7 +13,7 @@ public class Blackjack {
         scan.nextLine();
 
         Integer[] cards = { drawRandomCard(), drawRandomCard() };
-        Integer playerTotal = cards[0] + cards[1];
+        Integer playerTotal = getCardValue(cards[0]) + getCardValue(cards[1]);
         System.out.println("You get a \n" + cardString(cards[0]) + "\n And a \n" + cardString(cards[1]) + "\n");
         System.out.println("your total is: " + playerTotal);
 
@@ -30,7 +30,7 @@ public class Blackjack {
         while (hitOrStayChoice.equals("hit")) {
             Integer ExtraCard = drawRandomCard();
 
-            playerTotal += ExtraCard;
+            playerTotal += getCardValue(ExtraCard);
 
             System.out.println(" \nYou get a \n" + cardString(ExtraCard));
             System.out.println("your total is: " + playerTotal);
@@ -46,30 +46,40 @@ public class Blackjack {
             }
         }
 
-        Integer cpuTotal = cpuCard1 + cpuCard2; 
+        Integer cpuTotal = getCardValue(cpuCard1) + getCardValue(cpuCard2);
 
         System.out.println(" \nThe dealer's turn");
 
         while (cpuTotal < playerTotal) {
             Integer cpuExtraCard = drawRandomCard();
-            cpuTotal += cpuExtraCard;
+
+            cpuTotal += getCardValue(cpuExtraCard);
+
             System.out.println(" \n CPU gets a \n" + cardString(cpuExtraCard));
             System.out.println("CPU total is: " + cpuTotal);
-            if(cpuTotal > 21){
+            if (cpuTotal > 21) {
                 System.out.println("Bust! Dealer loses");
                 break;
             }
-            if(cpuTotal > playerTotal){
+            if (cpuTotal > playerTotal) {
                 System.out.println("Dealer wins!");
                 break;
             }
-            if(cpuTotal == playerTotal){
+            if (cpuTotal == playerTotal) {
                 System.out.println("Draw!");
                 break;
             }
         }
         scan.close();
 
+    }
+
+    public static int getCardValue(Integer cardNum) {
+        if (cardNum < 10) {
+            return cardNum;
+        } else {
+            return 10;
+        }
     }
 
     public static int drawRandomCard() {
